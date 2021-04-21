@@ -17,7 +17,7 @@
 
   <build>
     <sourceDirectory>src/main/scala</sourceDirectory>
-    <testSourceDirectory>src/test/scala</testSourceDirectory>
+
     <plugins>
       <plugin>
         <artifactId>maven-compiler-plugin</artifactId>

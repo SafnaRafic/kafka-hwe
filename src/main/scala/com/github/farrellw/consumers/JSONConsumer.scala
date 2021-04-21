@@ -11,10 +11,13 @@ import java.util.{Properties, UUID}
 object JSONConsumer {
 
   val BootstrapServer = "35.239.241.212:9092,35.239.230.132:9092,34.69.66.216:9092"
-  val Topic: String = "change-me"
+  val Topic: String = "question-5"
   implicit val formats: DefaultFormats.type = DefaultFormats
+  case class Message(name:String, phone:String, company:String,state:String,age:Int,house:String)
+
 
   def main(args: Array[String]): Unit = {
+
     // Create the KafkaConsumer
     val properties = getProperties(BootstrapServer)
     val consumer: KafkaConsumer[String, String] = new KafkaConsumer[String, String](properties)
@@ -30,19 +33,23 @@ object JSONConsumer {
       val records: ConsumerRecords[String, String] = consumer.poll(duration)
 
       records.forEach((record: ConsumerRecord[String, String]) => {
-        /*
+
           // DEBUG Info
           println(s"Key: ${record.key}. Value: ${record.value}")
           println(s"Partition: ${record.partition}, Offset ${record.offset}")
-        */
+
 
         /*
           1. Retrieve and print the message from each record
           2. Define a case class,  at the top of this file, that matches the message structure ( https://docs.scala-lang.org/tour/case-classes.html )
           3. Parse the JSON string into a scala case class ( https://alvinalexander.com/scala/simple-scala-lift-json-example-lift-framework/ )
          */
+        val json = parse(
+        record.value
+        )
+        val message = json.extract[Message]
 
-        val message = record.value()
+//        val message = record.value()
         println(s"Message Received: $message")
       })
     }
